@@ -21,21 +21,24 @@ export default function TestingForm() {
   const [longitudHalstead, setlongitudHalstead] = useState(0);
   const [volumenHalstead, setvolumenHalstead] = useState(0);
   const [comentariosSimples, setcomentariosSimples] = useState(0);
-
+  const [type, settype] = useState("both")
   const [currentState, setCurrentState] = useState(FORM_STATES.INPUT_LOADED);
 
   const outputs = [
     {
       name: "cantidad de líneas",
       value: cantLineasTotales,
+      type: "both"
     },
     {
       name: "cantidad de líneas de código",
       value: cantLineasTotales - comentariosSimples,
+      type: "both"
     },
     {
       name: "cantidad de líneas comentadas",
       value: comentariosSimples,
+      type: "both"
     },
     {
       name: "porcentaje de líneas comentadas",
@@ -43,18 +46,22 @@ export default function TestingForm() {
         comentariosSimples > 0 && cantLineasTotales > 0
           ? parseFloat(comentariosSimples / cantLineasTotales).toFixed(3) * 100
           : 0,
+      type: "both"
     },
     {
       name: "complejidad ciclomática",
       value: complejidadCiclomatica,
+      type: "McCabe"
     },
     {
       name: "longitud de Halstead",
       value: longitudHalstead,
+      type: "Halstead"
     },
     {
       name: "volumen de Halstead",
       value: volumenHalstead,
+      type: "Halstead"
     },
   ];
 
@@ -111,13 +118,19 @@ export default function TestingForm() {
       <Title>Herramienta de testing</Title>
 
       <CodeInput code={code} onCodeChange={handleCodeChange} />
+      
+      <div style={{display:"flex"}}>
+      <button className={type=== "McCabe" ? "checked-button" : "unchecked-button"} onClick={()=>{settype("McCabe")}}>McCabe</button>
+      <button className={type=== "Halstead" ? "checked-button" : "unchecked-button"} onClick={()=>{settype("Halstead")}}>Halstead</button>
+      <button className={type=== "both" ? "checked-button" : "unchecked-button"} onClick={()=>{settype("both")}}>Ambos</button>
+      </div>
       <Results
         className={
           currentState === FORM_STATES.SHOW_RESULTS ? "div-show" : "div-hide"
         }
       >
         {outputs.map((output) => (
-          <Result key={output.name} {...output} />
+          (type===output.type ||  output.type === "both" || type==="both") && <Result key={output.name} {...output} />
         ))}
       </Results>
       {currentState === FORM_STATES.INPUT_LOADED && (
