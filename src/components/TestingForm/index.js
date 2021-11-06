@@ -21,47 +21,73 @@ export default function TestingForm() {
   const [longitudHalstead, setlongitudHalstead] = useState(0);
   const [volumenHalstead, setvolumenHalstead] = useState(0);
   const [comentariosSimples, setcomentariosSimples] = useState(0);
-  const [type, settype] = useState("both")
+  const [n1, setn1] = useState(0);
+  const [N1, setN1] = useState(0)
+  const [n2, setn2] = useState(0);
+  const [N2, setN2] = useState(0);
+  const [type, settype] = useState("both");
   const [currentState, setCurrentState] = useState(FORM_STATES.INPUT_LOADED);
 
   const outputs = [
     {
       name: "cantidad de líneas",
       value: cantLineasTotales,
-      type: "both"
+      type: "both",
     },
     {
       name: "cantidad de líneas de código",
       value: cantLineasTotales - comentariosSimples,
-      type: "both"
+      type: "both",
     },
     {
       name: "cantidad de líneas comentadas",
       value: comentariosSimples,
-      type: "both"
+      type: "both",
     },
     {
       name: "porcentaje de líneas comentadas",
       value:
         comentariosSimples > 0 && cantLineasTotales > 0
-          ? parseFloat(comentariosSimples / cantLineasTotales).toFixed(3) * 100
+          ? (parseFloat(comentariosSimples / cantLineasTotales) * 100).toFixed(
+              3
+            )
           : 0,
-      type: "both"
+      type: "both",
     },
     {
       name: "complejidad ciclomática",
       value: complejidadCiclomatica,
-      type: "McCabe"
+      type: "McCabe",
     },
     {
       name: "longitud de Halstead",
       value: longitudHalstead,
-      type: "Halstead"
+      type: "Halstead",
     },
     {
       name: "volumen de Halstead",
       value: volumenHalstead,
-      type: "Halstead"
+      type: "Halstead",
+    },
+    {
+      name: "n1",
+      value: n1,
+      type: "Halstead",
+    },
+    {
+      name: "N1",
+      value: N1,
+      type: "Halstead",
+    },
+    {
+      name: "n2",
+      value: n2,
+      type: "Halstead",
+    },
+    {
+      name: "N2",
+      value: N2,
+      type: "Halstead",
     },
   ];
 
@@ -101,6 +127,8 @@ export default function TestingForm() {
     setcomplejidadCiclomatica(result + 1);
   };
 
+//TODO: fanin fanout
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -118,20 +146,46 @@ export default function TestingForm() {
       <Title>Herramienta de testing</Title>
 
       <CodeInput code={code} onCodeChange={handleCodeChange} />
-      
-      <div style={{display:"flex"}}>
-      <button className={type=== "McCabe" ? "checked-button" : "unchecked-button"} onClick={()=>{settype("McCabe")}}>McCabe</button>
-      <button className={type=== "Halstead" ? "checked-button" : "unchecked-button"} onClick={()=>{settype("Halstead")}}>Halstead</button>
-      <button className={type=== "both" ? "checked-button" : "unchecked-button"} onClick={()=>{settype("both")}}>Ambos</button>
+
+      <div style={{ display: "flex" }}>
+        <button
+          className={type === "McCabe" ? "checked-button" : "unchecked-button"}
+          onClick={() => {
+            settype("McCabe");
+          }}
+        >
+          McCabe
+        </button>
+        <button
+          className={
+            type === "Halstead" ? "checked-button" : "unchecked-button"
+          }
+          onClick={() => {
+            settype("Halstead");
+          }}
+        >
+          Halstead
+        </button>
+        <button
+          className={type === "both" ? "checked-button" : "unchecked-button"}
+          onClick={() => {
+            settype("both");
+          }}
+        >
+          Ambos
+        </button>
       </div>
       <Results
         className={
           currentState === FORM_STATES.SHOW_RESULTS ? "div-show" : "div-hide"
         }
       >
-        {outputs.map((output) => (
-          (type===output.type ||  output.type === "both" || type==="both") && <Result key={output.name} {...output} />
-        ))}
+        {outputs.map(
+          (output) =>
+            (type === output.type ||
+              output.type === "both" ||
+              type === "both") && <Result key={output.name} {...output} />
+        )}
       </Results>
       {currentState === FORM_STATES.INPUT_LOADED && (
         <SubmitButton style={{ marginTop: "20px" }} onClick={handleSubmit}>

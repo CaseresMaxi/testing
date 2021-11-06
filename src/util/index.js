@@ -54,20 +54,21 @@ export const halstead = (texto, callback) => {
     cantidadOperandosTotales
   );
 };
-
 export const calcularComplejidadCiclomatica = (code, callback) => {
   let result = 0;
-  const codeSplited = code.split(" ");
+  result+=code.split('if(').length - 1;
+  result+=code.split('if (').length - 1;
+  result+=code.split('for(').length - 1;
+  result+=code.split('for (').length - 1;
+  result+=code.split('while(').length - 1;
+  result+=code.split('while (').length - 1;
+  result+=code.split('||').length - 1;
+  result+=code.split('&&').length - 1;
+  result+=code.split('try{').length - 1;
+  result+=code.split('try(').length - 1;
+  result+=code.split('try {').length - 1;
+  result+=code.split('try (').length - 1;
 
-  codeSplited.forEach((c) => {
-    if (c in CONDICIONALES_JAVA) {
-      ++CONDICIONALES_JAVA[c];
-    }
-  });
-
-  Object.values(CONDICIONALES_JAVA).forEach((e) => {
-    result = result + e;
-  });
 
   callback(result);
 };
