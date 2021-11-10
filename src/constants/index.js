@@ -19,25 +19,17 @@ export const OPERADORES_JAVA = [
   ">",
 ];
 
-export const OPERADORES_JAVA_OCURRENCIAS = {
-  "+":0,
-  "-":0,
-  "/":0,
-  "*":0,
-  "int":0,
-  "double":0,
-  "float":0,
-  ";":0,
-  ":":0,
-  "public":0,
-  "static":0,
-  "void":0,
-  "&&":0,
-  "||":0,
-  "<=":0,
-  ">=":0,
-  "<":0,
-  ">":0,
+export const OPERADORES_JAVA_n1 = {
+ "{" : 0,
+  "for" : 0,
+  "=" : 0,
+  "if" : 0,
+  ";" : 0,
+  "(" : 0,
+  "<" : 0,
+  "<=": 0,
+  "++" : 0,
+  "[" : 0,
 };
 
 export const CONDICIONALES_JAVA = {

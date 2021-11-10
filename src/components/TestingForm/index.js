@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { CODE_EXAMPLE } from "../../constants";
+import { CODE_EXAMPLE, OPERADORES_JAVA_n1 } from "../../constants";
 import { halstead, calcularComplejidadCiclomatica } from "../../util";
 import CodeInput from "../CodeInput";
 import Result from "../Result";
@@ -49,8 +49,8 @@ export default function TestingForm() {
       value:
         comentariosSimples > 0 && cantLineasTotales > 0
           ? (parseFloat(comentariosSimples / cantLineasTotales) * 100).toFixed(
-              3
-            )
+            3
+          )
           : 0,
       type: "both",
     },
@@ -98,6 +98,64 @@ export default function TestingForm() {
     if (e.target.value.length) setCurrentState(FORM_STATES.INPUT_LOADED);
     else setCurrentState(FORM_STATES.WAITING_INPUT);
   };
+  // const calcularOperadoresN1n1 = (code) => {
+  //   const OPERADORES_JAVA_n1_ = {
+  //     "{": 0,
+  //     "for": 0,
+  //     "=": 0,
+  //     "if": 0,
+  //     ";": 0,
+  //     "(": 0,
+  //     "<": 0,
+  //     "<=": 0,
+  //     "++": 0,
+  //     "[": 0,
+  //   };
+
+  //   code.map((c) => {
+  //     Object.keys(OPERADORES_JAVA_n1_).map((op) => {
+  //       if (c.includes(op)) {
+  //         OPERADORES_JAVA_n1_[op] = OPERADORES_JAVA_n1_[op] + 1
+  //       }
+  //     })
+  //   })
+  //   let res1 = 0;
+  //   let res2 = 0;
+  //   Object.keys(OPERADORES_JAVA_n1_).map((op) => {
+  //     res1 = res1 + OPERADORES_JAVA_n1_[op]
+  //     if (OPERADORES_JAVA_n1_[op] != 0) {
+  //       res2 = res2 + 1
+  //     }
+  //   })
+  //   setn1(res1)
+  //   setN1(res2)
+
+  // }
+
+
+  // const calcularOperadoresn2N2 = (code) => {
+  //   const OPERADORES_JAVA_TYPES = [
+  //     "int",
+  //     "double",
+  //     "float",
+  //     "public",
+  //     "static",
+  //     //"void",
+  //   ];
+  //   const OPERADORES_JAVA_n2={}
+  //   let c=0
+  //  while(c<code.length) { 
+     
+  //    OPERADORES_JAVA_TYPES.map((type) => {
+  //       if (code[c].includes(type)) {
+  //       console.log(code[c],code[c+1])
+  //       }
+  //     })
+  //     c=c+1
+  //   }
+ 
+    
+  // }
 
   const handleHalsteadResult = (
     cantidadOperadoresUnicos,
@@ -105,21 +163,25 @@ export default function TestingForm() {
     cantidadOperadoresTotales,
     cantidadOperandosTotales
   ) => {
+      setn1(cantidadOperadoresTotales)
+      setN1(cantidadOperadoresUnicos)
+      setn2(cantidadOperandosTotales)
+      setN2(cantidadOperandosUnicos)
     setlongitudHalstead(
       cantidadOperadoresUnicos <= 0 || cantidadOperandosUnicos <= 0
         ? "-"
         : parseInt(
-            cantidadOperadoresUnicos * Math.log2(cantidadOperadoresUnicos) +
-              cantidadOperandosUnicos * Math.log2(cantidadOperandosUnicos)
-          )
+          cantidadOperadoresUnicos * Math.log2(cantidadOperadoresUnicos) +
+          cantidadOperandosUnicos * Math.log2(cantidadOperandosUnicos)
+        )
     );
     setvolumenHalstead(
       cantidadOperadoresUnicos + cantidadOperandosUnicos <= 0
         ? "-"
         : parseFloat(
-            (cantidadOperadoresTotales + cantidadOperandosTotales) *
-              Math.log2(cantidadOperadoresUnicos + cantidadOperandosUnicos)
-          ).toFixed(1)
+          (cantidadOperadoresTotales + cantidadOperandosTotales) *
+          Math.log2(cantidadOperadoresUnicos + cantidadOperandosUnicos)
+        ).toFixed(1)
     );
   };
 
@@ -127,11 +189,13 @@ export default function TestingForm() {
     setcomplejidadCiclomatica(result + 1);
   };
 
-//TODO: fanin fanout
+  //TODO: fanin fanout
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    // calcularOperadoresN1n1(code.split(" "))
+    // calcularOperadoresn2N2(code.split(" "))
     setcantLineasTotales(code.split("\n").length);
     setcomentariosSimples(code.split("//").length - 1);
 
